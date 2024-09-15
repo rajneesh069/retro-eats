@@ -1,0 +1,21 @@
+{
+  "name": "db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc && node dist/index.js",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.19.1",
+    "prisma": "^5.19.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.5"
+  }
+}

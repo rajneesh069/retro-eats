@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Country {
+  countryId   String      @id @unique
+  countryName String
+  locations   Location[] 
+}
+
+model Location {
+  locationId  Int        @id @default(autoincrement())
+  latitude    Float
+  longitude   Float
+  address     String
+  city        String
+  countryId   String    
+  locality    String
+  country     Country    @relation(fields: [countryId], references: [countryId])
+  restaurants Restaurant[]
+}
+
+model Restaurant {
+  restaurant_id          Int      @id @default(autoincrement())
+  name                   String
+  cuisines               String
+  featuredImage          String
+  thumbImage             String
+  ratingText             String
+  ratingColor            String
+  aggregateRating        Float
+  votes                  Int
+  averageCostForTwo      Float
+  hasTableBooking        Boolean
+  hasOnlineDelivery      Boolean
+  isDeliveringNow        Boolean
+  locationId             Int
+  location               Location @relation(fields: [locationId], references: [locationId])
+}
