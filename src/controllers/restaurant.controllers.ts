@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { calculateArea } from "../utils/areaCalc";
 
 const client = new PrismaClient();
 
@@ -160,7 +161,7 @@ export const getRestaurantLocation = async (req: Request, res: Response) => {
   const userLongitude = parseFloat(longitude as string);
   const radiusKm = 3;
 
-  const { minLat, maxLat, minLon, maxLon } = calculateBoundingBox(
+  const { minLat, maxLat, minLon, maxLon } = calculateArea(
     userLatitude,
     userLongitude,
     radiusKm
