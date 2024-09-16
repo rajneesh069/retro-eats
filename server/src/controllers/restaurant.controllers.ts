@@ -11,7 +11,7 @@ export const restaurantListController = async (req: Request, res: Response) => {
   const countryId = (req.query.countryId as string) || undefined;
   const averageCostForTwo =
     parseInt(req.query.averageCostForTwo as string) || undefined;
-  const cuisines = req.query.cuisines as string | undefined;
+  const cuisines = req.query.cuisines as string || undefined;
 
   try {
     const data = await client.restaurant.findMany({
