@@ -6,6 +6,8 @@ import Link from "next/link"
 import { Star, MapPin, Phone } from "lucide-react"
 import { SERVER_URL } from "@/utils/config"
 import Image from "next/image"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 
 interface Restaurant {
   id: number
@@ -24,7 +26,7 @@ interface RestaurantCardProps {
 const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
   return (
     <Link href={`/restaurant/${restaurant.id}`}>
-      <div className="bg-yellow-100 rounded-xl shadow-lg overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl border-4 border-orange-500">
+      <Card className="bg-orange-100 rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl border-2 border-orange-400 hover:border-orange-500">
         <div className="relative">
           <Image
             width={500}
@@ -33,14 +35,14 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
             alt={restaurant.name}
             className="w-full h-48 object-cover"
           />
-          <div className="absolute top-0 right-0 bg-orange-500 text-white px-3 py-1 rounded-bl-xl font-bold">
+          <Badge className="absolute top-2 right-2 bg-orange-500 text-white px-2 py-1 rounded-md font-bold">
             {restaurant.rating.toFixed(1)}
-          </div>
+          </Badge>
         </div>
-        <div className="p-4">
-          <h3 className="text-2xl font-bold text-orange-800 mb-2 font-serif">
-            {restaurant.name}
-          </h3>
+        <CardHeader>
+          <h3 className="text-2xl font-bold text-orange-800 mb-2 font-serif">{restaurant.name}</h3>
+        </CardHeader>
+        <CardContent>
           <div className="flex items-center mb-2">
             {[...Array(5)].map((_, i) => (
               <Star
@@ -52,7 +54,9 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
               />
             ))}
           </div>
-          <p className="text-orange-700 mb-2 font-medium italic">{restaurant.cuisine}</p>
+          <Badge variant="secondary" className="mb-2 bg-orange-200 text-orange-700 font-medium">
+            {restaurant.cuisine}
+          </Badge>
           <div className="flex items-center text-orange-600 mb-2">
             <MapPin className="w-5 h-5 mr-2 text-orange-500" />
             <span>{restaurant.location}</span>
@@ -61,8 +65,8 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
             <Phone className="w-5 h-5 mr-2 text-orange-500" />
             <span>{restaurant.phone || "N/A"}</span>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </Link>
   )
 }
@@ -145,9 +149,9 @@ const RestaurantListingPage: React.FC = () => {
   }
 
   return (
-    <div className="bg-orange-50 py-8 min-h-screen">
+    <div className="bg-orange-950 py-8 min-h-screen">
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-5xl font-extrabold text-orange-800 mb-8 text-center font-serif">
+        <h1 className="text-5xl font-extrabold text-orange-100 mb-8 text-center font-serif">
           Retro Eats
         </h1>
         <div className="w-24 h-2 bg-orange-500 mx-auto mb-12"></div>
@@ -161,13 +165,13 @@ const RestaurantListingPage: React.FC = () => {
         {loading && (
           <div className="text-center mt-8">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-orange-500"></div>
-            <p className="mt-2 text-orange-800 font-medium">Loading more delicious options...</p>
+            <p className="mt-2 text-orange-200 font-medium">Loading more delicious options...</p>
           </div>
         )}
 
         {!hasMore && (
           <div className="text-center mt-8">
-            <p className="text-orange-800 font-medium">You&apos;ve seen all our tasty picks!</p>
+            <p className="text-orange-200 font-medium">You&apos;ve seen all our tasty picks!</p>
           </div>
         )}
       </div>

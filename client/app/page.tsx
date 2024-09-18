@@ -1,5 +1,4 @@
 import RestaurantListingPage from "@/components/RestaurantListingPage";
-import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
 
 const Home: React.FC = () => {
@@ -9,7 +8,6 @@ const Home: React.FC = () => {
         <HeroSection />
         <RestaurantListingPage />
       </main>
-      <Footer />
     </div>
   );
 };

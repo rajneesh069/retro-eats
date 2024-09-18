@@ -1,18 +1,9 @@
-"use client";
-import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Link from "next/link";
+'use client'
 
-const HeroSection: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
-  // Scroll effect to update background on the navbar
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 100);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
+export default function HeroSection() {
   return (
     <div className="relative h-screen w-full bg-gray-900">
       {/* Video Background */}
@@ -29,33 +20,25 @@ const HeroSection: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900 opacity-70"></div>
       </div>
 
-      {/* Navbar */}
-      <div
-        className={`relative top-0 w-full z-10 transition-colors duration-300 ${
-          isScrolled ? "bg-gray-800" : "bg-transparent backdrop-blur-md"
-        }`}
-      >
-        <Navbar isScrolled={isScrolled} />
-      </div>
-
       {/* Hero Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
-        <h1 className="text-white text-6xl font-extrabold tracking-wider animate-fade-in drop-shadow-lg">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 sm:px-6 lg:px-8">
+        <h1 className="text-white text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-wider animate-fade-in drop-shadow-lg">
           Welcome to Retro Eats
         </h1>
-        <p className="text-gray-400 mt-4 text-lg animate-slide-up drop-shadow-md">
-        Best dining experiences in your area with Retro Eats.
+        <p className="text-gray-400 mt-4 text-base sm:text-lg md:text-xl max-w-md sm:max-w-lg md:max-w-2xl animate-slide-up drop-shadow-md">
+          Best dining experiences in your area with Retro Eats.
         </p>
         {/* Button */}
-        <Link
-          href={"/upload"}
-          className="mt-8 px-6 py-3 text-lg font-semibold text-white bg-purple-600 rounded-full hover:bg-purple-700 transition-transform transform hover:scale-105 shadow-lg"
+        <Button
+          asChild
+          className="mt-8 px-6 py-3 text-lg font-semibold bg-purple-600 hover:bg-purple-700 transition-transform transform hover:scale-105 shadow-lg"
+          size="lg"
         >
-          Get Started
-        </Link>
+          <Link href="/upload">
+            Get Started
+          </Link>
+        </Button>
       </div>
     </div>
-  );
-};
-
-export default HeroSection;
+  )
+}
