@@ -5,6 +5,9 @@ import { LocationPopup } from "@/components/LocationPopup";
 import { useRouter } from "next/navigation";
 import { SERVER_URL } from "@/utils/config";
 import Image from "next/image";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Badge, DollarSign, MapPin, Phone, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export interface Restaurant {
   id: number;
@@ -26,11 +29,11 @@ interface RestaurantCardProps {
   restaurant: Restaurant;
 }
 
-const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
-  const router = useRouter(); // useRouter to navigate
+function RestaurantCard({ restaurant }: RestaurantCardProps) {
+  const router = useRouter();
 
   const handleCardClick = () => {
-    router.push(`/restaurant/${restaurant.id}`); // Navigate to /restaurant/{id}
+    router.push(`/restaurant/${restaurant.id}`);
   };
 
   const formattedRating =
@@ -40,38 +43,28 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
   const formattedCost = restaurant.averageCostForTwo.toLocaleString();
 
   return (
-    <div
-      onClick={handleCardClick}
-      className="bg-white rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-xl overflow-hidden cursor-pointer"
-    >
-      <Image
-        width={500}
-        height={500}
-        src={restaurant.image || "/default-image-url.jpg"}
-        alt={restaurant.name}
-        className="w-full h-48 object-cover"
-      />
-      <div className="p-4">
-        <h3 className="text-2xl font-bold text-gray-800 mb-2">
+    <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105">
+      <div className="relative">
+        <Image
+          width={500}
+          height={300}
+          src={restaurant.image || "/placeholder.svg?height=300&width=500"}
+          alt={restaurant.name}
+          className="w-full h-48 object-cover"
+        />
+        <Badge className="absolute top-2 right-2 bg-yellow-400 text-yellow-900">
+          {formattedRating} <Star className="w-4 h-4 ml-1 inline" />
+        </Badge>
+      </div>
+      <CardContent className="p-4">
+        <h3 className="text-2xl font-bold text-primary mb-2">
           {restaurant.name}
         </h3>
-        <div className="flex items-center mb-2">
-          {[...Array(5)].map((_, i) => (
-            <span
-              key={i}
-              className={`inline-block w-5 h-5 ${
-                i < (restaurant.rating ?? 0)
-                  ? "text-yellow-400"
-                  : "text-gray-300"
-              }`}
-            >
-              ★
-            </span>
-          ))}
-          <span className="ml-2 text-gray-700 text-lg">{formattedRating}</span>
-        </div>
-        <p className="text-gray-600 mb-2 font-medium">{restaurant.cuisine}</p>
-        <div className="flex items-center text-gray-500 mb-2">
+        <p className="text-muted-foreground mb-2 font-medium">
+          {restaurant.cuisine}
+        </p>
+        <div className="flex items-center text-muted-foreground mb-2">
+          <MapPin className="w-4 h-4 mr-1" />
           <span className="mr-2">
             {restaurant.location.locality || "Unknown Location"}
           </span>
@@ -79,16 +72,25 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
             {restaurant.location.country.countryName || "Unknown Country"}
           </span>
         </div>
-        <p className="text-gray-600 mb-2 font-medium">
-          Average Cost for Two: ${formattedCost}
-        </p>
-        <div className="flex items-center text-gray-500">
-          <span>{restaurant.phone || "N/A"}</span>
+        <div className="flex items-center text-muted-foreground mb-2">
+          <DollarSign className="w-4 h-4 mr-1" />
+          <span>Average Cost for Two: ${formattedCost}</span>
         </div>
-      </div>
-    </div>
+        {restaurant.phone && (
+          <div className="flex items-center text-muted-foreground">
+            <Phone className="w-4 h-4 mr-1" />
+            <span>{restaurant.phone}</span>
+          </div>
+        )}
+      </CardContent>
+      <CardFooter>
+        <Button onClick={handleCardClick} className="w-full">
+          View Details
+        </Button>
+      </CardFooter>
+    </Card>
   );
-};
+}
 
 const LocationSearch: React.FC = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
@@ -198,7 +200,7 @@ const LocationSearch: React.FC = () => {
         <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center">
           Restaurants Near Your Location
         </h1>
-        {loading && <p className="text-center">Loading...</p>}
+        {loading && <p className="text-center text-black">Loading...</p>}
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {restaurants.map((restaurant) => (

@@ -10,7 +10,7 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <h3 className="text-2xl font-bold mb-4 text-blue-400">About Retro Eats</h3>
-            <p className="text-gray-400 leading-relaxed">
+            <p className="text-white leading-relaxed">
               Discover the best dining experiences in your area with Retro Eats. 
               We help you find and explore amazing restaurants near you.
             </p>

@@ -1,52 +1,52 @@
-'use client'
+"use client";
 
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react"
-import { Upload } from "lucide-react"
-import axios from "axios"
-import FormData from "form-data"
-import { SERVER_URL } from "@/utils/config"
-import { cuisines } from "@/utils/constants"
-import { Restaurant } from "@/app/locationSearch/page"
-import RestaurantCard from "./RestaurantCard"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { Upload } from "lucide-react";
+import axios from "axios";
+import FormData from "form-data";
+import { SERVER_URL } from "@/utils/config";
+import { cuisines } from "@/utils/constants";
+import { Restaurant } from "@/app/locationSearch/page";
+import RestaurantCard from "./RestaurantCard";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function UploadImage() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
-  const [error, setError] = useState<string | null>(null)
-  const [uploadProgress, setUploadProgress] = useState<number>(0)
-  const [uploadMessage, setUploadMessage] = useState<string | null>(null)
-  const [isUploading, setIsUploading] = useState<boolean>(false)
-  const [data, setData] = useState<Restaurant[]>([])
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [uploadMessage, setUploadMessage] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [data, setData] = useState<Restaurant[]>([]);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
+    const file = event.target.files?.[0];
     if (file && file.type.substr(0, 5) === "image") {
-      setSelectedFile(file)
-      setPreviewUrl(URL.createObjectURL(file))
-      setError(null)
+      setSelectedFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+      setError(null);
     } else {
-      setSelectedFile(null)
-      setPreviewUrl(null)
-      setError("Please select a valid image file.")
+      setSelectedFile(null);
+      setPreviewUrl(null);
+      setError("Please select a valid image file.");
     }
-  }
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    if (!selectedFile) return
+    event.preventDefault();
+    if (!selectedFile) return;
 
-    setIsUploading(true)
-    setUploadProgress(0)
-    setUploadMessage("Uploading...")
+    setIsUploading(true);
+    setUploadProgress(0);
+    setUploadMessage("Uploading...");
 
-    const formdata = new FormData()
-    formdata.append("image", selectedFile)
+    const formdata = new FormData();
+    formdata.append("image", selectedFile);
 
     try {
       const res = await axios.post(
@@ -59,38 +59,38 @@ export default function UploadImage() {
           onUploadProgress: (progressEvent) => {
             const percentCompleted = Math.round(
               (progressEvent.loaded * 100) / (progressEvent.total ?? 1)
-            )
-            setUploadProgress(percentCompleted)
+            );
+            setUploadProgress(percentCompleted);
           },
         }
-      )
+      );
 
-      setUploadMessage("Processing image...")
-      const dishName: string = res.data.tagWith100Confidence.tag.en
-      const cuisineName: string = cuisines[dishName] || "Indian"
+      setUploadMessage("Processing image...");
+      const dishName: string = res.data.tagWith100Confidence.tag.en;
+      const cuisineName: string = cuisines[dishName] || "Indian";
 
-      setUploadMessage("Fetching restaurants...")
+      setUploadMessage("Fetching restaurants...");
       const restaurantList = await axios.get(
         `${SERVER_URL}/api/v1/restaurant/list?cuisines=${cuisineName}`
-      )
+      );
 
-      if (restaurantList.data) setData(restaurantList.data.data)
-      setUploadMessage(null)
+      if (restaurantList.data) setData(restaurantList.data.data);
+      setUploadMessage(null);
     } catch (error) {
-      console.error(error)
-      setError("An error occurred while processing your request.")
+      console.error(error);
+      setError("An error occurred while processing your request.");
     } finally {
-      setIsUploading(false)
+      setIsUploading(false);
     }
-  }
+  };
 
   useEffect(() => {
     return () => {
       if (previewUrl) {
-        URL.revokeObjectURL(previewUrl)
+        URL.revokeObjectURL(previewUrl);
       }
-    }
-  }, [previewUrl])
+    };
+  }, [previewUrl]);
 
   return (
     <div className="min-h-screen bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -132,7 +132,7 @@ export default function UploadImage() {
               <div className="space-y-2">
                 <Label className="text-gray-300">Preview</Label>
                 {previewUrl ? (
-                  <div className="relative w-full h-32 overflow-hidden rounded-md">
+                  <div className="relative w-full h-64 overflow-hidden rounded-md">
                     <Image
                       fill
                       src={previewUrl}
@@ -142,14 +142,14 @@ export default function UploadImage() {
                   </div>
                 ) : (
                   <div className="flex items-center justify-center w-full h-32 bg-gray-700 rounded-md">
-                    <p className="text-gray-400">Image preview will appear here</p>
+                    <p className="text-gray-400">
+                      Image preview will appear here
+                    </p>
                   </div>
                 )}
               </div>
             </div>
-            {error && (
-              <p className="text-red-500 text-sm mt-2">{error}</p>
-            )}
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
             <div>
               {isUploading ? (
                 <div className="space-y-2">
@@ -178,5 +178,5 @@ export default function UploadImage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
