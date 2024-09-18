@@ -1,1 +1,1 @@
-export const SERVER_URL:string = "http://localhost:8000"
+export const SERVER_URL:string = "https://iiit-kota-assign-rajneesh069-1.onrender.com"

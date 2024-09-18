@@ -4,7 +4,7 @@ import path from "path";
 
 const prisma = new PrismaClient();
 
-const dataFilePath = path.join(__dirname, "/../files/file3.json");
+const dataFilePath = path.join(__dirname, "/../files/file.json");
 
 // Helper function to load and parse JSON file
 const loadData = () => {
