@@ -21,8 +21,9 @@ export async function uploadOnCloudinary(localFilePath: string) {
     console.log(uploadResult);
     return uploadResult;
   } catch (error) {
-    fs.unlinkSync(localFilePath);
     console.error(error);
     return error;
+  } finally {
+    fs.unlinkSync(localFilePath);
   }
 }

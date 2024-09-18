@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { restaurantRouter } from "./routes/restaurant.routes";
+import { imageRecognitionRouter } from "./routes/imageRecognition.routes";
 const PORT = 8000;
 
 const app = express();
@@ -12,6 +13,7 @@ app.get("/", async (req: Request, res: Response) => {
 });
 
 app.use("/api/v1/restaurant", restaurantRouter);
+app.use("/api/v1/recognizeImage", imageRecognitionRouter);
 
 app.listen(PORT, () => {
   console.log("Server is up and running at:", `http://localhost:${PORT}`);

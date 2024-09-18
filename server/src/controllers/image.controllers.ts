@@ -6,6 +6,7 @@ import { findTagWithHighestConfidence } from "../utils/extractTag";
 
 export async function imageRecognitionController(req: Request, res: Response) {
   const localFilePath = req.file?.path;
+  console.log("localFilePath:", localFilePath);
 
   if (!localFilePath) {
     return res.status(400).json({ message: "No file uploaded." });
