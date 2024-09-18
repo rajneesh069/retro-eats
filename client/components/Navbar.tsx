@@ -1,95 +1,107 @@
-"use client";
-import React, { useState } from "react";
-import { MapPin, Upload, Menu, X } from "lucide-react";
-import { useRouter } from "next/navigation";
+"use client"
+
+import React, { useState } from "react"
+import { MapPin, Upload, Menu, X } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
 
 interface NavbarProps {
-  isScrolled: boolean;
+  isScrolled: boolean
 }
 
-const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const router = useRouter();
+export default function Navbar({ isScrolled }: NavbarProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const router = useRouter()
 
   const handleLocationSearch = () => {
-    router.push("/locationSearch");
-  };
+    router.push("/locationSearch")
+  }
 
   const handleUploadImage = () => {
-    router.push("/upload");
-  };
+    router.push("/upload")
+  }
 
   return (
     <nav
       className={`sticky top-0 z-50 p-4 transition-all duration-300 ${
-        isScrolled
-          ? "bg-gradient-to-r from-purple-800 to-blue-800"
-          : "bg-gradient-to-r from-gray-900 to-black"
-      } shadow-lg`}
+        isScrolled ? "bg-gray-900" : "bg-gray-950"
+      }`}
     >
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <button
           onClick={() => router.push("/")}
-          className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-blue-600 tracking-wide"
+          className="text-4xl font-cursive font-semibold text-white tracking-wide hover:opacity-80 transition-opacity duration-200"
         >
-          Swiggato
+          Retro Eats
         </button>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
-          <button
+        <div className="hidden md:flex items-center space-x-4">
+          <Button
+            variant="outline"
             onClick={handleLocationSearch}
-            className="flex items-center bg-gradient-to-r from-pink-500 to-red-600 text-white py-2 px-6 rounded-full transition-transform duration-200 transform hover:scale-105 hover:shadow-lg hover:shadow-pink-500/50"
+            className="flex items-center"
           >
-            <MapPin className="w-6 h-6 mr-2" />
-            Use My Location
-          </button>
-          <button
+            <MapPin className="w-4 h-4 mr-2" />
+            Locate Me
+          </Button>
+          <Button
+            variant="outline"
             onClick={handleUploadImage}
-            className="flex items-center bg-gradient-to-r from-green-500 to-blue-600 text-white py-2 px-6 rounded-full transition-transform duration-200 transform hover:scale-105 hover:shadow-lg hover:shadow-green-500/50"
+            className="flex items-center"
           >
-            <Upload className="w-6 h-6 mr-2" />
-            Search With Image
-          </button>
+            <Upload className="w-4 h-4 mr-2" />
+            Image Search
+          </Button>
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="text-white focus:outline-none transform transition-transform duration-500"
-          >
-            {isMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
-        </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </Button>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="absolute top-0 left-0 w-full h-screen bg-black bg-opacity-80 flex flex-col justify-center items-center space-y-8">
-          <button
-            onClick={handleLocationSearch}
-            className="w-3/4 bg-gradient-to-r from-pink-500 to-red-600 text-white py-4 px-6 rounded-full transition-transform duration-200 transform hover:scale-105 hover:shadow-lg hover:shadow-pink-500/50 flex items-center justify-center space-x-2"
+        <div className="fixed inset-0 bg-background/95 flex flex-col justify-center items-center space-y-8 z-[60] md:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute top-4 right-4"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <X className="h-8 w-8" />
+          </Button>
+          <Button
+            variant="outline"
+            className="w-3/4 py-4 px-6 flex items-center justify-center space-x-2"
+            onClick={() => {
+              setIsMenuOpen(false)
+              handleLocationSearch()
+            }}
           >
             <MapPin className="h-5 w-5" />
             <span>Use My Location</span>
-          </button>
-          <button
-            onClick={handleUploadImage}
-            className="w-3/4 bg-gradient-to-r from-green-500 to-blue-600 text-white py-4 px-6 rounded-full transition-transform duration-200 transform hover:scale-105 hover:shadow-lg hover:shadow-green-500/50 flex items-center justify-center space-x-2"
+          </Button>
+          <Button
+            variant="outline"
+            className="w-3/4 py-4 px-6 flex items-center justify-center space-x-2"
+            onClick={() => {
+              setIsMenuOpen(false)
+              handleUploadImage()
+            }}
           >
             <Upload className="h-5 w-5" />
             <span>Upload Image</span>
-          </button>
+          </Button>
         </div>
       )}
     </nav>
-  );
-};
-
-export default Navbar;
+  )
+}

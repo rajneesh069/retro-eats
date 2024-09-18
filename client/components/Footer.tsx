@@ -9,9 +9,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
           {/* About Section */}
           <div>
-            <h3 className="text-2xl font-bold mb-4 text-blue-400">About Swiggato</h3>
+            <h3 className="text-2xl font-bold mb-4 text-blue-400">About Retro Eats</h3>
             <p className="text-gray-400 leading-relaxed">
-              Discover the best dining experiences in your area with Swiggato. 
+              Discover the best dining experiences in your area with Retro Eats. 
               We help you find and explore amazing restaurants near you.
             </p>
           </div>
@@ -66,7 +66,7 @@ const Footer = () => {
         {/* Divider and Copyright */}
         <div className="mt-8 pt-6 border-t border-gradient border-gray-700">
           <p className="text-gray-400 text-center">
-            © {currentYear} Swiggato. All rights reserved.
+            © {currentYear} Retro Eats. All rights reserved.
           </p>
         </div>
       </div>
