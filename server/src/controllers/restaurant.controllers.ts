@@ -6,7 +6,7 @@ const client = new PrismaClient();
 
 export const restaurantListController = async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
-  const pageSize = 3;
+  const pageSize = 8;
 
   const countryId = (req.query.countryId as string) || undefined;
   const averageCostForTwo =
